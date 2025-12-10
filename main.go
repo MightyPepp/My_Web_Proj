@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"My_Web_Proj/stack"
+	// "My_Web_Proj/stack"
 )
 
 func main() {

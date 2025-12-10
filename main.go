@@ -9,7 +9,8 @@ import (
 func main() {
 	fmt.Println("---------->><<----------")
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Yooooo web")
+		fmt.Fprintf(w, "Yooooo web!")
+		// http.ServeFile(w, r, "index.html") //Нужно разобраться, что делать если .html в какой-то папке лежит
 	})
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {

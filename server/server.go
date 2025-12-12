@@ -9,7 +9,7 @@ func StartServer() {
 	
 	r := http.NewServeMux()
 
-	//Хуй пойми в итоге что делает эта строка (либо я тупой)
+	//Хуй пойми в итоге что делает эта строка (либо я тупой?)
 	r.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

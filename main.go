@@ -1,24 +1,9 @@
 package main
 
 import (
-	"fmt"
-	// "My_Web_Proj/stack"
-	"net/http"
+	"My_Web_Proj/server"
 )
 
 func main() {
-	fmt.Println("---------->><<----------")
-
-	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-	// 	fmt.Fprintf(w, "Yooooo web!")
-	// 	http.ServeFile(w, r, "index.html") //Нужно разобраться, что делать если .html в какой-то папке лежит
-	// })
-
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/", fs)
-
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		fmt.Println("Error starting the server", err)
-	}
+	server.StartServer()
 }

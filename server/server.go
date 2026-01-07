@@ -1,13 +1,25 @@
 package server
 
 import (
-	// "fmt"
 	"log"
 	"net/http"
+	"strings"
 )
+
+func defaultHandler(w http.ResponseWriter, r *http.Request) {
+
+	path := r.URL.Path
+	path = strings.TrimPrefix(path, "/")
+	
+	http.ServeFile(w, r, "./static/" + path + ".html")
+}
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Запрос в корень")
+	log.Println("Scheme: ", r.URL.Scheme)
+	log.Println("Host: ", r.Host)
+	log.Println("Path: ", r.URL.Path)
+	log.Println("Query: ", r.URL.Query())
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return

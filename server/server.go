@@ -3,49 +3,27 @@ package server
 import (
 	"log"
 	"net/http"
-	"strings"
+	"fmt"
 )
-
-func defaultHandler(w http.ResponseWriter, r *http.Request) {
-
-	path := r.URL.Path
-	path = strings.TrimPrefix(path, "/")
-	
-	http.ServeFile(w, r, "./static/" + path + ".html")
-}
-
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	log.Printf("Запрос в корень")
-	log.Println("Scheme: ", r.URL.Scheme)
-	log.Println("Host: ", r.Host)
-	log.Println("Path: ", r.URL.Path)
-	log.Println("Query: ", r.URL.Query())
-	if r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
-	}
-	http.ServeFile(w, r, "./static/index.html")
-}
-
-func aboutHandler(w http.ResponseWriter, r *http.Request) {
-	log.Printf("Запрос в about")
-	http.ServeFile(w, r, "./static/about.html")
-}
-
-func anotherHandler(w http.ResponseWriter, r *http.Request) {
-	log.Printf("Запрос в another")
-	http.ServeFile(w, r, "./static/another.html")
-}
 
 func StartServer(port string) {
 
-	http.HandleFunc("/", homeHandler)
-	http.HandleFunc("/about", aboutHandler)
-	http.HandleFunc("/another", anotherHandler)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./static/index.html")
+	})
+
+	http.HandleFunc("/postform", func(w http.ResponseWriter, r*http.Request) {
+		
+		username := r.FormValue("username")
+		userage := r.FormValue("userage")
+
+		fmt.Fprintf(w, "Имя: %s; Возраст: %s", username, userage)
+	})
 
 	log.Printf("Сервер запущен на http://localhost:%s", port)
-	err := http.ListenAndServe(":" + port, nil)
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatal("Ошибка запуска сервера: ", err)
 	}
+	
 }

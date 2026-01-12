@@ -12,6 +12,10 @@ func StartServer(port string) {
 		http.ServeFile(w, r, "./static/index.html")
 	})
 
+	http.HandleFunc("/user", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./static/user.html")
+	})
+
 	http.HandleFunc("/postform", func(w http.ResponseWriter, r*http.Request) {
 		
 		username := r.FormValue("username")

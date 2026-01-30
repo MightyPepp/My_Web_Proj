@@ -1,23 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
 )
 
-func productsHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-	response := fmt.Sprintf("Product %s", id)
-	fmt.Fprint(w, response)
+func coreHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./static/index")
 }
 
 func main() {
-	router := mux.NewRouter()
-	router.HandleFunc("/products/{id:[0-9]+}", productsHandler)
-	http.Handle("/", router)
+	mux := http.NewServeMux()
 
-	fmt.Println("Server is listening...")
-	http.ListenAndServe(":8080", nil)
+	mux.HandleFunc("/", coreHandler)
+
+	http.ListenAndServe(":8080", mux)
 }
